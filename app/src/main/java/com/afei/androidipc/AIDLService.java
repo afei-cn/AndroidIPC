@@ -69,6 +69,6 @@ public class AIDLService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return mStub;
+        return mStub; // 在这里返回 mStub 对象实现绑定
     }
 }

@@ -1,4 +1,4 @@
-// ITestDataManager.aidl
+// MyAidlInterface.aidl
 package com.afei.androidipc;
 
 // 在这里引用非默认的数据类型
@@ -12,7 +12,7 @@ interface MyAidlInterface {
     // 2. String类 + CharSequence接口
     void stringType(String aString);
 
-    // ****** 以下类型参数必须致命方向 (in / out / inout)
+    // ****** 以下类型参数必须指明方向 (in / out / inout)
     // 3. 序列化的类
     void parcelableType(in Bundle aBundle);
 
