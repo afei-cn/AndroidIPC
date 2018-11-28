@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
     private Button mAidlBtn;
 
-    private ITestAidl mITestAidl;
+    private MyAidlInterface mAidlInterface;
     private ServiceConnection mAidlServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "onServiceConnected: " + name);
-            mITestAidl = ITestAidl.Stub.asInterface(service);
+            mAidlInterface = MyAidlInterface.Stub.asInterface(service);
         }
 
         @Override
@@ -68,32 +68,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void testAidl() {
-        if (mITestAidl == null) {
+        if (mAidlInterface == null) {
             Log.e(TAG, "testAidl: service not connect!");
             return;
         }
         try {
-            mITestAidl.basicTypes(1, 2, true, 3.0f, 4.0);
-
-            mITestAidl.stringType("I'm MainActivity");
-
+            // 1. 基本数据类型
+            mAidlInterface.basicTypes(1, 2, true, 3.0f, 4.0);
+            // 2. String类 + CharSequence接口
+            mAidlInterface.stringType("test string");
+            // 3. 序列化的类
             Bundle bundle = new Bundle();
             bundle.putInt("int", 1);
-            mITestAidl.parcelableType(bundle);
-
+            mAidlInterface.parcelableType(bundle);
+            // 4. List 和 Map, 并且里面的元素也是可序列化的
             List<Integer> list = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 list.add(i);
             }
-            mITestAidl.listType(list);
+            mAidlInterface.listType(list);
             Map<Integer, String> map = new HashMap<>();
             map.put(1, "value1");
             map.put(2, "value2");
             map.put(3, "value3");
-            mITestAidl.mapType(map);
-
-            mITestAidl.setTestData(new TestData("I'm MainActivity", 666));
-            Log.d(TAG, mITestAidl.getTestData().toString());
+            mAidlInterface.mapType(map);
+            // 5. 自定义的序列化类
+            mAidlInterface.setTestData(new TestData("I'm from MainActivity", 666));
+            Log.d(TAG, mAidlInterface.getTestData().toString());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

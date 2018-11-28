@@ -22,7 +22,7 @@ public class AIDLService extends Service {
 
     private static final String TAG = "AIDLService";
 
-    private final ITestAidl.Stub mStub = new ITestAidl.Stub() {
+    private final MyAidlInterface.Stub mStub = new MyAidlInterface.Stub() {
         @Override
         public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double
                 aDouble) throws RemoteException {
@@ -63,7 +63,7 @@ public class AIDLService extends Service {
 
         @Override
         public TestData getTestData() throws RemoteException {
-            return new TestData("I'm AIDLService", 666);
+            return new TestData("I'm from AIDLService", 666);
         }
     };
 

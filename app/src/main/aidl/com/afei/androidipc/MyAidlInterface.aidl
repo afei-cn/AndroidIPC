@@ -4,7 +4,7 @@ package com.afei.androidipc;
 // 在这里引用非默认的数据类型
 import com.afei.androidipc.TestData;
 
-interface ITestAidl {
+interface MyAidlInterface {
 
     // 1. 基本数据类型
     void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble);
