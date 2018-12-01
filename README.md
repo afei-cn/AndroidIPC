@@ -39,3 +39,22 @@
 [代码示例](https://github.com/afei-cn/AndroidIPC/blob/master/app/src/main/java/com/afei/androidipc/aidl/AIDLActivity.java)
 
 [博客讲解](https://blog.csdn.net/afei__/article/details/84594748)
+
+
+## 二、Messenger
+
+### 1. 简介
+Messenger 是 Android 提供的一种轻量级的进程间通信方案。它的本质是对 AIDL 的封装，所以使用起来也更加容易了。
+
+Messenger 是指 “信使” 的意思，即它是一个进程与进程间的信使，就像是一个快递员在两个进程间传递消息（Message）。因此，它的使用也和 Message 息息相关。
+
+### 2. 特点
+- `Messenger` 是一种轻量级的 IPC 方案，它适用于进程之间消息的传递，且使用起来很方便（相信你已经很熟悉 `Handle` 的使用了）。
+- `Messenger` 是以串行的方式处理客户端发来的消息，如果大量消息同时发送到服务端，服务端只能 一个一个 处理，所以大量并发请求就不适合用 Messenger。
+- 而且 `Messenger` 只适合传递消息，不能跨进程调用服务端的方法。
+- `AIDL` 可以解决并发和跨进程调用方法的问题
+
+### 3. 实战
+[代码示例](https://github.com/afei-cn/AndroidIPC/blob/master/app/src/main/java/com/afei/androidipc/messenger/MessengerActivity.java)
+
+[博客讲解](https://blog.csdn.net/afei__/article/details/83386759)
