@@ -30,10 +30,10 @@ import java.util.Map;
 public class AIDLActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AIDLActivity";
-    private Button mAidlBtn;
+    private Button mSendBtn;
 
     private MyAidlInterface mAidlInterface;
-    private ServiceConnection mAidlServiceConnection = new ServiceConnection() {
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "onServiceConnected: " + name);
@@ -52,18 +52,24 @@ public class AIDLActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         // 绑定服务
         Intent intent = new Intent(this, AIDLService.class);
-        bindService(intent, mAidlServiceConnection, Context.BIND_AUTO_CREATE);
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(mServiceConnection);
+        super.onDestroy();
     }
 
     private void initView() {
-        mAidlBtn = findViewById(R.id.aidl_btn);
-        mAidlBtn.setOnClickListener(this);
+        mSendBtn = findViewById(R.id.send_btn);
+        mSendBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.aidl_btn:
+            case R.id.send_btn:
                 testAidl();
                 break;
         }
@@ -102,9 +108,4 @@ public class AIDLActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        unbindService(mAidlServiceConnection);
-        super.onDestroy();
-    }
 }

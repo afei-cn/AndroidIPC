@@ -17,10 +17,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".aidl.AIDLActivity" />
-
+        <activity android:name=".messenger.MessengerActivity"></activity>
         <service
             android:name=".aidl.AIDLService"
             android:process=":aidl" />
+        <service
+            android:name=".messenger.MessengerService"
+            android:process=":messenger"  />
+
     </application>
 
 </manifest>

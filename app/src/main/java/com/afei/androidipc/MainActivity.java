@@ -15,12 +15,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.afei.androidipc.aidl.AIDLActivity;
+import com.afei.androidipc.messenger.MessengerActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private Button mAidlBtn;
-
+    private Button mMessengerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mAidlBtn = findViewById(R.id.aidl_btn);
         mAidlBtn.setOnClickListener(this);
+        mMessengerBtn = findViewById(R.id.messenger_btn);
+        mMessengerBtn.setOnClickListener(this);
     }
 
     @Override
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.aidl_btn:
                 startActivity(new Intent(this, AIDLActivity.class));
+                break;
+            case R.id.messenger_btn:
+                startActivity(new Intent(this, MessengerActivity.class));
                 break;
         }
     }

@@ -36,6 +36,6 @@
 我们应该保证，对于输入参数就使用 `in`，输出参数就使用 `out`。
 
 ### 5. 实战
-[代码示例](https://github.com/afei-cn/AndroidIPC/blob/master/app/src/main/java/com/afei/androidipc/MainActivity.java)
+[代码示例](https://github.com/afei-cn/AndroidIPC/blob/master/app/src/main/java/com/afei/androidipc/aidl/AIDLActivity.java)
 
 [博客讲解](https://blog.csdn.net/afei__/article/details/84594748)
