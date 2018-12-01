@@ -3,10 +3,10 @@
  *
  * @file: TestData.java
  * @author: afei
- * @data: 2018年11月27日
+ * @data: 2018年12月01日
  */
 
-package com.afei.androidipc;
+package com.afei.androidipc.aidl;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -3,10 +3,10 @@
  *
  * @file: AIDLService.java
  * @author: afei
- * @data: 2018年11月28日
+ * @data: 2018年12月01日
  */
 
-package com.afei.androidipc;
+package com.afei.androidipc.aidl;
 
 import android.app.Service;
 import android.content.Intent;

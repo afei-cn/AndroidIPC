@@ -1,8 +1,8 @@
 // MyAidlInterface.aidl
-package com.afei.androidipc;
+package com.afei.androidipc.aidl;
 
 // 在这里引用非默认的数据类型
-import com.afei.androidipc.TestData;
+import com.afei.androidipc.aidl.TestData;
 
 interface MyAidlInterface {
 
