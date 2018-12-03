@@ -33,15 +33,29 @@ public class AIDLActivity extends AppCompatActivity implements View.OnClickListe
     private Button mSendBtn;
 
     private MyAidlInterface mAidlInterface;
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "onServiceConnected: " + name);
             mAidlInterface = MyAidlInterface.Stub.asInterface(service);
+            try {
+                mAidlInterface.registerListener(mTestDataCallback);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            mAidlInterface = null;
+        }
+    };
+
+    private TestDataCallback mTestDataCallback = new TestDataCallback.Stub() {
+        @Override
+        public void onCallback(TestData data) throws RemoteException {
+            Log.d(TAG, "onCallback: " + data.toString());
         }
     };
 
@@ -57,6 +71,13 @@ public class AIDLActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
+        if (mAidlInterface != null && mAidlInterface.asBinder().isBinderAlive()) {
+            try {
+                mAidlInterface.unregisterListener(mTestDataCallback);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
         unbindService(mServiceConnection);
         super.onDestroy();
     }
@@ -103,6 +124,8 @@ public class AIDLActivity extends AppCompatActivity implements View.OnClickListe
             // 5. 自定义的序列化类
             mAidlInterface.setTestData(new TestData("I'm from MainActivity", 666));
             Log.d(TAG, mAidlInterface.getTestData().toString());
+            // 6. 使用回调接口
+            mAidlInterface.testCallback();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
