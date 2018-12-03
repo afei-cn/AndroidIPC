@@ -10,20 +10,22 @@ package com.afei.androidipc.aidl;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Parcel;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AIDLService extends Service {
 
     private static final String TAG = "AIDLService";
+    private static final String PERMISSION = "com.afei.androidipc.permission.ACCESS_SERVICE";
     private RemoteCallbackList<TestDataCallback> mListenerList = new RemoteCallbackList<>();
 
     private final Binder mBinder = new MyAidlInterface.Stub() {
@@ -84,16 +86,34 @@ public class AIDLService extends Service {
         public void testCallback() throws RemoteException {
             new ServiceWorker().start(); // 启动一个线程
         }
+
+        // 权限认证
+        @Override
+        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            // 方式1：验证客户端是否申请拥有 "com.afei.androidipc.permission.ACCESS_SERVICE" 权限
+            int check = checkCallingOrSelfPermission(PERMISSION);
+            if (check == PackageManager.PERMISSION_DENIED) {
+                Log.e(TAG, "onTransact: permission denied: " + PERMISSION);
+                return false;
+            }
+            // 方式2：验证包名
+            String packageName = null;
+            String[] packages = getPackageManager().getPackagesForUid(getCallingUid());
+            if (packages != null && packages.length > 0) {
+                packageName = packages[0];
+            }
+            // 判断包名是否符合要求
+            if (packageName == null || !packageName.startsWith("com.afei")) {
+                Log.e(TAG, "onTransact: packageName error: " + packageName);
+                return false;
+            }
+            return super.onTransact(code, data, reply, flags);
+        }
     };
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder; // 在这里返回 mBinder 对象实现绑定
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private class ServiceWorker extends Thread {

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.afei.androidipc">
+          package="com.afei.androidipc">
+
+    <!--声明所需的权限-->
+    <permission
+        android:name="com.afei.androidipc.permission.ACCESS_SERVICE"
+        android:protectionLevel="normal"/>
+    <!--由于AIDL服务端做了权限控制，所有需要申请该权限-->
+    <uses-permission android:name="com.afei.androidipc.permission.ACCESS_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -11,19 +18,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".aidl.AIDLActivity" />
-        <activity android:name=".messenger.MessengerActivity"></activity>
+        <activity android:name=".aidl.AIDLActivity"/>
+        <activity android:name=".messenger.MessengerActivity"/>
+
         <service
             android:name=".aidl.AIDLService"
-            android:process=":aidl" />
+            android:process=":aidl"/>
         <service
             android:name=".messenger.MessengerService"
-            android:process=":messenger"  />
+            android:process=":messenger"/>
 
     </application>
 
